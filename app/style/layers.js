@@ -22,6 +22,8 @@ function layers(shading, contours) {
       'select geometry, type from osm_buildings')
     .sqlLayer('barrierways',
       'select geometry, type from osm_barrierways')
+    .sqlLayer('aeroways',
+      'select geometry, type from osm_aeroways')
     .doInMap((map) => {
       if (contours) {
         map.sqlLayer(
@@ -54,6 +56,8 @@ function layers(shading, contours) {
         + " union select type, geometry, 0 as z_order from osm_buildings where type in ('church', 'chapel', 'cathedral', 'temple', 'basilica')" // TODO separate table for place_of_worship
         + ' order by z_order' // TODO implement ordering in yaml
     )
+    .sqlLayer('transport_points',
+      'select type, geometry, 0 as z_order from osm_transport_points')
     .sqlLayer('infopoint_names',
       'select type, geometry, name, ele from osm_infopoints',
       { /* bufferSize: 512 */ })
